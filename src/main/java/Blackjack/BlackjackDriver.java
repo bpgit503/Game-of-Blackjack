@@ -53,9 +53,9 @@ public class BlackjackDriver {
 
         System.out.println("The dealer has dealt the cards.");
 
-        boolean endOfTurn = false;
 
-        while (!endOfTurn) {
+
+
 
             System.out.println("\ndealers hand: " + dealersHand.getCard(1));
             System.out.println("\nYour hand: " + playersHand.getCards());
@@ -67,7 +67,6 @@ public class BlackjackDriver {
 
                 System.out.println("Dealers hand: " + dealersHand.getCards());
                 System.out.println("\nYour hand: " + playersHand.getCards());
-                break;
 
             } else if (playersHand.isBlackjack()) {
                 System.out.println("You hit a natural Blackjack! You Win!");
@@ -81,29 +80,37 @@ public class BlackjackDriver {
                 determineWinner();
             }
         }
-    }
+
 
     private void playerTurn() {
-
-        System.out.println("\n It is your move: Hit(1) or Stand(2):");
+        System.out.println("\nIt is your move: Hit(1) or Stand(2):");
         String input = scanner.nextLine();
-
-        while (input.equals("2") || input.equalsIgnoreCase("stand")) {
-
+        while (true) {
             if (input.equals("1") || input.equalsIgnoreCase("hit")) {
 
                 playersHand.addCard(deck.deal().orElseThrow());
 
+                System.out.println("You hit: " + playersHand.getCards()
+                        + "\nYour hand sum: " + playersHand.getHandSum());
+
                 if (playersHand.isBust()) {
 
-                    System.out.println("It's a bust! You lost the round");
+                    System.out.println("It's a bust! You lost the round\n");
                     System.out.println("Your hand" + playersHand.getCards() + "\nDealers Hand" + dealersHand.getCards());
-
                     break;
+
+                } else{
+
+                    System.out.println("\nIt is your move: Hit(1) or Stand(2):");
+                    input = scanner.nextLine();
+
                 }
+            }else {
+                System.out.println("You stand with: " + playersHand.getCards()
+                        + "\nYour hand sum: " + playersHand.getHandSum());
+                break;
             }
         }
-
     }
 
     private void dealerTurn() {
