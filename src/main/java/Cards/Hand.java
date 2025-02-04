@@ -29,6 +29,7 @@ public class Hand {
     public int getHandSum() {
         int sum = 0;
         int aceCount = 0;
+
         for (Card card : cards) {
             sum += card.getRank().getRankValue();
             if (card.getRank() == Rank.ACE) {
@@ -41,8 +42,15 @@ public class Hand {
             aceCount--;
         }
 
-
         return sum;
+    }
+
+    public boolean isBlackjack(){
+        return cards.size() == 2 && getHandSum() == 21;
+    }
+
+    public boolean isBust(){
+        return getHandSum() > 21;
     }
 
 }

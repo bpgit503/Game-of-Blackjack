@@ -1,32 +1,35 @@
 package Blackjack;
 
 import Cards.*;
+
 import java.util.Scanner;
 
 
 //reshullfe fucnion in deck
-//ace handling in geet sum
-//strict boolean for isBlackjack isBust
+//bonus add chips the game. Make it as close to bj as possible
 public class BlackjackDriver {
-    private Deck deckOfCards;
+    private Deck deck;
     private Hand playersHand;
     private Hand dealersHand;
 
-
-    public void run() {
-        Scanner scanner = new Scanner(System.in);
-
-        deckOfCards = new Deck();
+    public BlackjackDriver() {
+        deck = new Deck();
         playersHand = new Hand();
         dealersHand = new Hand();
+    }
+
+
+    public void startGame() {
+        Scanner scanner = new Scanner(System.in);
 
         System.out.println("Welcome to Blackjack!");
         System.out.println("The dealer is dealing");
 
-        playersHand.addCard(deckOfCards.deal().get());
-        dealersHand.addCard(deckOfCards.deal().get());
-        playersHand.addCard(deckOfCards.deal().get());
-        dealersHand.addCard(deckOfCards.deal().get());
+        playersHand.addCard(deck.deal().orElseThrow());
+        dealersHand.addCard(deck.deal().orElseThrow());
+        playersHand.addCard(deck.deal().orElseThrow());
+        dealersHand.addCard(deck.deal().orElseThrow());
+
 
         System.out.println("The dealer has dealt the cards.");
 
@@ -38,20 +41,24 @@ public class BlackjackDriver {
             System.out.println("\nYour hand: " + playersHand.getCards());
 
 
-            if (checkForBlackjack(playersHand)) {
+            if (playersHand.isBlackjack() && dealersHand.isBlackjack()) {
 
-                System.out.println("You've hit a natural! \nLets see what the Dealers got 00\n");
+                System.out.println("Both the player and the dealer have hit a natural Blackjack! Its a tie!");
+
                 System.out.println("Dealers hand: " + dealersHand.getCards());
+                System.out.println("\nYour hand: " + playersHand.getCards());
+                break;
 
-                if (checkForBlackjack(dealersHand)) {
+            } else if (playersHand.isBlackjack()) {
+                System.out.println("You hit a natural Blackjack! You Win!");
 
-                    System.out.println("Its a tie. - push");
+            } else if (dealersHand.isBlackjack()) {
+                System.out.println("The dealer has hit a Natural Blackjack! Dealer wins!");
 
-                } else {
-
-                    System.out.println("Congratulations! You've hit a won!");
-                }
             } else {
+                playerTurn();
+                delaerTurn();
+                determineWinner();
 
                 //method to check for over 21 points bust
                 System.out.println("\n It is your move: Hit(1) or Stand(2):");
@@ -59,24 +66,24 @@ public class BlackjackDriver {
 
                 if (input.equals("1") || input.equalsIgnoreCase("hit")) {
 
-                    playersHand.addCard(deckOfCards.deal().get());
+                    playersHand.addCard(deck.deal().get());
 
                     endOfTurn = checkForBust(playersHand);
-                        if (endOfTurn) {
-                            System.out.println("You lost the round");
-                            System.out.println("\n Your hand: " + playersHand.getCards());
-                            break;
-                        }
+                    if (endOfTurn) {
+                        System.out.println("You lost the round");
+                        System.out.println("\n Your hand: " + playersHand.getCards());
+                        break;
+                    }
 
                 } else if (input.equals("2") || input.equalsIgnoreCase("stand")) {
                     System.out.println("The dealer reveals his hand");
                     System.out.println("\ndealers hand: " + dealersHand.getCards());
 
-                    while(dealersHand.getHandSum() < 17){
+                    while (dealersHand.getHandSum() < 17) {
 
-                        dealersHand.addCard(deckOfCards.deal().get());
+                        dealersHand.addCard(deck.deal().get());
 
-                        if(checkForBust(dealersHand)){
+                        if (checkForBust(dealersHand)) {
                             break;
                         }
                     }
@@ -91,8 +98,21 @@ public class BlackjackDriver {
 
 
         }
-        //bonus add chips the game. Make it as close to bj as possible
+
     }
+
+    private void determineWinner() {
+
+    }
+
+    private void delaerTurn() {
+
+    }
+
+    private void playerTurn() {
+
+    }
+
 
     private boolean checkForBust(Hand hand) {
 
