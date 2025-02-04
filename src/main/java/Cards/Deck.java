@@ -26,7 +26,7 @@ public class Deck {
         return this.deckOfCards.isEmpty() ? Optional.empty() : Optional.of(this.deckOfCards.pop());
     }
 
-    public void reshuffle(){
+    public void reshuffle() {
         this.deckOfCards.clear();
         this.deckOfCards.addAll(initDeck());
     }

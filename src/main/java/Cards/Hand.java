@@ -22,10 +22,6 @@ public class Hand {
         return this.cards.get(index);
     }
 
-    public Card revealDealerHiddenCard() {
-        return cards.get(0);
-    }
-
     public int getHandSum() {
         int sum = 0;
         int aceCount = 0;

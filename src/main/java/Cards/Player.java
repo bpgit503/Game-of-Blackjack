@@ -2,16 +2,6 @@ package Cards;
 
 import lombok.Data;
 
-/**
- * set a balance
- * place bet
- * blackjack bet so win 3:2
- * win a bet
- * lose a bet
- * push bet
- * **reset hand
- */
-
 @Data
 public class Player {
     private String name;
@@ -28,6 +18,10 @@ public class Player {
     }
 
     public boolean placeBet(double amount) {
+        if (balance == 0) {
+            System.out.println("You don't have enough money to bet with");
+            return false;
+        }
         if (amount > balance) {
             System.out.println(name + " does not have enough to bet $" + amount);
             return false;
