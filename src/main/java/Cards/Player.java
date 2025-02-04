@@ -27,42 +27,41 @@ public class Player {
         this.hand = new Hand();
     }
 
-    public boolean placeBet(double amount){
-        if(amount > balance){
-            System.out.println(name +" does not have enough to bet $" + amount);
+    public boolean placeBet(double amount) {
+        if (amount > balance) {
+            System.out.println(name + " does not have enough to bet $" + amount);
             return false;
         }
+
         this.currentBet += amount;
         this.balance -= amount;
         System.out.println(name + " placed a bet of $" + amount);
         return true;
     }
 
-    public void winBet(){
-        this.balance += currentBet*2;
+    public void winBet() {
+        this.balance += currentBet * 2;
         System.out.println(name + "wins and now has $" + balance);
     }
 
-    public void winBlackjack(){
-        this.balance += currentBet*2.5;
+    public void winBlackjack() {
+        this.balance += currentBet * 2.5;
         System.out.println(name + "wins with Blackjack and now has $" + balance);
     }
 
-    public void loseBet(){
+    public void loseBet() {
         System.out.println(name + " loses the bet. Balance is now $" + balance);
     }
 
     //push (tie) : returns bet
-    public void pushBet(){
+    public void pushBet() {
         this.balance += currentBet;
         System.out.println(name = "pushes the bet, Balance restored to $" + balance);
     }
 
-    public void resetHand(){
+    public void resetHand() {
         this.hand = new Hand();
     }
-
-
 
 
 }
