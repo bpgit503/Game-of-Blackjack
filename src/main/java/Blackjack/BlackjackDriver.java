@@ -19,26 +19,8 @@ public class BlackjackDriver {
         playersHand = new Hand();
         dealersHand = new Hand();
         scanner = new Scanner(System.in);
-    }
-
-    public void testRun() {
-        Hand dealerHand = new Hand();
-
-        dealerHand.addCard(new Card(Suits.HEARTS, Rank.SEVEN));
-        dealerHand.addCard(new Card(Suits.SPADES, Rank.FOUR));
-        dealerHand.addCard(new Card(Suits.CLUBS, Rank.ACE));
-
-        System.out.println("Dealer's hand: " + dealerHand.getCards());
-        System.out.println("Dealer's hand sum: " + dealerHand.getHandSum());
-
-        if (dealerHand.isBust()) {
-            System.out.println("Dealer busts!");
-        } else {
-            System.out.println("Dealer is safe with sum: " + dealerHand.getHandSum());
-        }
 
     }
-
 
     public void startGame() {
 
