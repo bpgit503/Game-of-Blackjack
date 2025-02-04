@@ -54,32 +54,29 @@ public class BlackjackDriver {
         System.out.println("The dealer has dealt the cards.");
 
 
+        System.out.println("\ndealers hand: " + dealersHand.getCard(1));
+        System.out.println("\nYour hand: " + playersHand.getCards());
 
 
+        if (playersHand.isBlackjack() && dealersHand.isBlackjack()) {
 
-            System.out.println("\ndealers hand: " + dealersHand.getCard(1));
+            System.out.println("Both the player and the dealer have hit a natural Blackjack! Its a tie!");
+
+            System.out.println("Dealers hand: " + dealersHand.getCards());
             System.out.println("\nYour hand: " + playersHand.getCards());
 
+        } else if (playersHand.isBlackjack()) {
+            System.out.println("You hit a natural Blackjack! You Win!");
 
-            if (playersHand.isBlackjack() && dealersHand.isBlackjack()) {
+        } else if (dealersHand.isBlackjack()) {
+            System.out.println("The dealer has hit a Natural Blackjack! Dealer wins!");
 
-                System.out.println("Both the player and the dealer have hit a natural Blackjack! Its a tie!");
-
-                System.out.println("Dealers hand: " + dealersHand.getCards());
-                System.out.println("\nYour hand: " + playersHand.getCards());
-
-            } else if (playersHand.isBlackjack()) {
-                System.out.println("You hit a natural Blackjack! You Win!");
-
-            } else if (dealersHand.isBlackjack()) {
-                System.out.println("The dealer has hit a Natural Blackjack! Dealer wins!");
-
-            } else {
-                playerTurn();
-                dealerTurn();
-                determineWinner();
-            }
+        } else {
+            playerTurn();
+            dealerTurn();
+            determineWinner();
         }
+    }
 
 
     private void playerTurn() {
@@ -99,13 +96,13 @@ public class BlackjackDriver {
                     System.out.println("Your hand" + playersHand.getCards() + "\nDealers Hand" + dealersHand.getCards());
                     break;
 
-                } else{
+                } else {
 
                     System.out.println("\nIt is your move: Hit(1) or Stand(2):");
                     input = scanner.nextLine();
 
                 }
-            }else {
+            } else {
                 System.out.println("You stand with: " + playersHand.getCards()
                         + "\nYour hand sum: " + playersHand.getHandSum());
                 break;

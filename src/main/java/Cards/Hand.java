@@ -45,11 +45,11 @@ public class Hand {
         return sum;
     }
 
-    public boolean isBlackjack(){
+    public boolean isBlackjack() {
         return cards.size() == 2 && getHandSum() == 21;
     }
 
-    public boolean isBust(){
+    public boolean isBust() {
         return getHandSum() > 21;
     }
 
