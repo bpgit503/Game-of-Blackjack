@@ -8,10 +8,4 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BlackjackDriverTest {
 
-    BlackjackDriver driver = new BlackjackDriver();
-
-    @Test
-    public void testCheckForBlackjack() {
-
-    }
 }
