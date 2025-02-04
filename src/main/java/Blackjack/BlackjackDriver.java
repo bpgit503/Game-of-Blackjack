@@ -1,7 +1,6 @@
 package Blackjack;
 
-import Cards.Deck;
-import Cards.Player;
+import Cards.*;
 
 import java.util.Scanner;
 
@@ -45,12 +44,12 @@ public class BlackjackDriver {
             player.getHand().addCard(deck.deal().orElseThrow());
             dealer.getHand().addCard(deck.deal().orElseThrow());
 
-
             System.out.println("The dealer has dealt the cards.");
 
 
             System.out.println("\ndealers hand: " + dealer.getHand().getCard(1));
-            System.out.println("\nYour hand: " + player.getHand().getCards());
+            System.out.println("You hit: " + player.getHand().getCards()
+                    + "\nYour hand sum: " + player.getHand().getHandSum());
 
 
             if (player.getHand().isBlackjack() && dealer.getHand().isBlackjack()) {
@@ -66,24 +65,26 @@ public class BlackjackDriver {
                 player.winBlackjack();
 
             } else if (dealer.getHand().isBlackjack()) {
-                System.out.println("The dealer has hit a Natural Blackjack! Dealer wins!");
+                System.out.println("\nThe dealer has hit a Natural Blackjack! Dealer wins!");
                 player.loseBet();
 
             } else {
                 playerTurn();
                 dealerTurn();
                 determineWinner();
-                if (gameLoop = playAgain()) {
-                    deck.reshuffle();
-                    player.resetHand();
-                    dealer.resetHand();
-                }
             }
+
+            if (gameLoop = playAgain()) {
+                deck.reshuffle();
+                player.resetHand();
+                dealer.resetHand();
+            }
+
         }
     }
 
     private boolean playAgain() {
-        System.out.println("Care for another round? yes(1) or no(2)");
+        System.out.println("\nCare for another round? yes(1) or no(2)");
         String answer = scanner.nextLine();
         if (answer.equals("1") || answer.equals("yes")) {
             return true;

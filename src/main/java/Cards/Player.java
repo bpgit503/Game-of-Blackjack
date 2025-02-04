@@ -35,7 +35,7 @@ public class Player {
 
     public void winBet() {
         this.balance += currentBet * 2;
-        System.out.println(name + "wins and now has $" + balance);
+        System.out.println(name + " wins and now has $" + balance);
     }
 
     public void winBlackjack() {
@@ -55,6 +55,7 @@ public class Player {
 
     public void resetHand() {
         this.hand = new Hand();
+        this.currentBet = 0;
     }
 
 
