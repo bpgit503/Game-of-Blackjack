@@ -27,9 +27,22 @@ public class Hand {
     }
 
     public int getHandSum() {
-        return this.cards.stream()
-                .mapToInt(card -> card.getRank().getRankValue())
-                .sum();
+        int sum = 0;
+        int aceCount = 0;
+        for (Card card : cards) {
+            sum += card.getRank().getRankValue();
+            if (card.getRank() == Rank.ACE) {
+                aceCount++;
+            }
+        }
+
+        while (sum > 21 && aceCount > 0) {
+            sum -= 10;
+            aceCount--;
+        }
+
+
+        return sum;
     }
 
 }

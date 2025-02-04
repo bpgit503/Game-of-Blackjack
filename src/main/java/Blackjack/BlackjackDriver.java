@@ -1,13 +1,12 @@
 package Blackjack;
 
 import Cards.*;
-
-import javax.swing.*;
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
+
+//reshullfe fucnion in deck
+//ace handling in geet sum
+//strict boolean for isBlackjack isBust
 public class BlackjackDriver {
     private Deck deckOfCards;
     private Hand playersHand;
