@@ -3,6 +3,7 @@ package Blackjack;
 import Cards.*;
 
 import java.util.Scanner;
+import java.util.spi.AbstractResourceBundleProvider;
 
 
 //reshullfe fucnion in deck
@@ -11,16 +12,35 @@ public class BlackjackDriver {
     private Deck deck;
     private Hand playersHand;
     private Hand dealersHand;
+    private final Scanner scanner;
 
     public BlackjackDriver() {
         deck = new Deck();
         playersHand = new Hand();
         dealersHand = new Hand();
+        scanner = new Scanner(System.in);
+    }
+
+    public void testRun() {
+        Hand dealerHand = new Hand();
+
+        dealerHand.addCard(new Card(Suits.HEARTS, Rank.SEVEN));
+        dealerHand.addCard(new Card(Suits.SPADES, Rank.FOUR));
+        dealerHand.addCard(new Card(Suits.CLUBS, Rank.ACE));
+
+        System.out.println("Dealer's hand: " + dealerHand.getCards());
+        System.out.println("Dealer's hand sum: " + dealerHand.getHandSum());
+
+        if (dealerHand.isBust()) {
+            System.out.println("Dealer busts!");
+        } else {
+            System.out.println("Dealer is safe with sum: " + dealerHand.getHandSum());
+        }
+
     }
 
 
     public void startGame() {
-        Scanner scanner = new Scanner(System.in);
 
         System.out.println("Welcome to Blackjack!");
         System.out.println("The dealer is dealing");
@@ -57,110 +77,70 @@ public class BlackjackDriver {
 
             } else {
                 playerTurn();
-                delaerTurn();
+                dealerTurn();
                 determineWinner();
-
-                //method to check for over 21 points bust
-                System.out.println("\n It is your move: Hit(1) or Stand(2):");
-                String input = scanner.nextLine();
-
-                if (input.equals("1") || input.equalsIgnoreCase("hit")) {
-
-                    playersHand.addCard(deck.deal().get());
-
-                    endOfTurn = checkForBust(playersHand);
-                    if (endOfTurn) {
-                        System.out.println("You lost the round");
-                        System.out.println("\n Your hand: " + playersHand.getCards());
-                        break;
-                    }
-
-                } else if (input.equals("2") || input.equalsIgnoreCase("stand")) {
-                    System.out.println("The dealer reveals his hand");
-                    System.out.println("\ndealers hand: " + dealersHand.getCards());
-
-                    while (dealersHand.getHandSum() < 17) {
-
-                        dealersHand.addCard(deck.deal().get());
-
-                        if (checkForBust(dealersHand)) {
-                            break;
-                        }
-                    }
-                    System.out.println("\n\nLets see the results!");
-                    System.out.println("\ndealers hand: " + dealersHand.getCards());
-                    System.out.println("\nYour hand: " + playersHand.getCards());
-                    compareHands(playersHand, dealersHand);
-
-                    break;
-                }
             }
-
-
         }
-
-    }
-
-    private void determineWinner() {
-
-    }
-
-    private void delaerTurn() {
-
     }
 
     private void playerTurn() {
 
-    }
+        System.out.println("\n It is your move: Hit(1) or Stand(2):");
+        String input = scanner.nextLine();
 
+        while (input.equals("2") || input.equalsIgnoreCase("stand")) {
 
-    private boolean checkForBust(Hand hand) {
+            if (input.equals("1") || input.equalsIgnoreCase("hit")) {
 
-        int aceCount = (int) hand.getCards().stream().filter(card -> card.getRank() == Rank.ACE).count();
+                playersHand.addCard(deck.deal().orElseThrow());
 
-        int sumOfCards = hand.getHandSum();
+                if (playersHand.isBust()) {
 
-        if (aceCount > 0) {
-            for (int i = 0; i < aceCount; i++) {
-                if (sumOfCards + 11 <= 21) {
-                    sumOfCards += 11;
-                } else {
-                    sumOfCards += 1;
+                    System.out.println("It's a bust! You lost the round");
+                    System.out.println("Your hand" + playersHand.getCards() + "\nDealers Hand" + dealersHand.getCards());
+
+                    break;
                 }
             }
-
-            return false;
-
-        } else if (sumOfCards > 21) {
-            System.out.println("Its a bust!");
-            return true;
         }
-        return false;
+
     }
 
-    private void compareHands(Hand playersHand, Hand dealersHand) {
-        int playersHandSum = playersHand.getHandSum();
-        int dealersHandSum = dealersHand.getHandSum();
+    private void dealerTurn() {
+        if (playersHand.isBust()) return;
 
-        if (playersHandSum == dealersHandSum) {
-            System.out.println("Its a tie. - push");
-        } else if (playersHandSum > dealersHandSum) {
-            System.out.println("Congratulations! You won the round!");
-        } else {
-            System.out.println("The dealers won the round! Care to try again?");
-        }
-    }
+        System.out.println("The dealer reveals his hand");
+        System.out.println("\ndealers hand: " + dealersHand.getCards());
+        while (dealersHand.getHandSum() < 17) {
 
-    private boolean checkForBlackjack(Hand hand) {
-        if (hand.getCards().size() == 2) {
-            if (hand.getHandSum() == 21) {
-                System.out.println("Blackjack spotted!");
-                return true;
+            dealersHand.addCard(deck.deal().orElseThrow());
+            System.out.println("Dealer hits: " + dealersHand.getCards()
+                    + "\nDealer's hand sum: " + dealersHand.getHandSum());
+
+
+            if (dealersHand.isBust()) {
+                System.out.println("It's a bust! The Dealer lost the round");
+                return;
             }
         }
 
+        System.out.println("Dealer stands with: " + dealersHand.getHandSum());
 
-        return false;
     }
 
+    private void determineWinner() {
+        if (playersHand.isBust()) return;
+        if (dealersHand.isBust()) return;
+
+        int playerSum = playersHand.getHandSum();
+        int dealerSum = dealersHand.getHandSum();
+
+        if (playerSum > dealerSum) {
+            System.out.println("Player wins with " + playerSum + " against dealer's " + dealerSum + "!");
+        } else if (dealerSum > playerSum) {
+            System.out.println("Dealer wins with " + dealerSum + " against player's " + playerSum + "!");
+        } else {
+            System.out.println("It's a tie! Both have " + playerSum + ".");
+        }
+    }
 }
